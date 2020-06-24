@@ -82,9 +82,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - Color_116725BF: {r: 1, g: 1, b: 1, a: 0}
+    - Color_116725BF: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 0}
     - Color_6512CD7A: {r: 1, g: 1, b: 1, a: 0}
-    - Color_85BA657: {r: 1, g: 1, b: 1, a: 0}
+    - Color_85BA657: {r: 1, g: 0.84950143, b: 0.3537736, a: 0}
     - Color_F25F2FC1: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
