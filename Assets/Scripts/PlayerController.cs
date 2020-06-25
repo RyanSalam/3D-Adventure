@@ -24,6 +24,19 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 MoveDirection;
 
+    AnimatorStateInfo stateInfo;
+
+    readonly int Hash_Attack1 = Animator.StringToHash("Attack 1");
+    readonly int Hash_Attack2 = Animator.StringToHash("Attack 2");
+    readonly int Hash_Attack3 = Animator.StringToHash("Attack 3");
+
+    private bool CanMove
+    {
+        get
+        {
+            return true;
+        }
+    }
     private bool IsMoving
     {
         get
@@ -35,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return true;
+            return anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack1;
         }
     }
 
@@ -62,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log(anim.GetCurrentAnimatorStateInfo(0).shortNameHash);
         anim.SetFloat("StateTime", Mathf.Repeat(anim.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
 
         CalculateForwardMovement();
@@ -91,6 +105,9 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateOrientation()
     {
+        if (IsAttacking)
+            return;
+
         Vector3 targetRot = new Vector3(MoveDirection.x, 0, MoveDirection.y);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetRot), 0.15F);
@@ -98,6 +115,9 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (!CanMove)
+            return;
+
         Vector3 movement = new Vector3(MoveDirection.x, 0, MoveDirection.y);
 
         cc.Move(movement * forwardSpeed * Time.deltaTime);
