@@ -171,7 +171,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &18668205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,8 +189,7 @@ MonoBehaviour:
   jumpSpeed: 10
   minTurnSpeed: 400
   maxTurnSpeed: 1200
-  idleTimeout: 5
-  canAttack: 0
+  idleTimeout: 2
 --- !u!1001 &379896139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -419,8 +418,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1200089237}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.11, y: 1, z: -3.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
