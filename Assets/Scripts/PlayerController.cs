@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
 
         Move();
 
+        UpdateOrientation();
+
         TimeOutToIdle();
     }
 
@@ -85,6 +87,13 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("ForwardSpeed", forwardSpeed);
 
         return forwardSpeed;
+    }
+
+    private void UpdateOrientation()
+    {
+        Vector3 targetRot = new Vector3(MoveDirection.x, 0, MoveDirection.y);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetRot), 0.15F);
     }
 
     private void Move()
