@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minTurnSpeed = 400f;
     [SerializeField] private float maxTurnSpeed = 1200f;
     [SerializeField] private float idleTimeout = 5f;
+    [SerializeField] private float turnSmoothTime = 0.1f;
+    private float turnSmoothVelocity;
+
+    private Transform cameraTransform;
+
     private bool canAttack;
 
     private float desiredForwardSpeed;
@@ -34,7 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return true;
+            return !IsAttacking;
         }
     }
     private bool IsMoving
@@ -48,7 +53,9 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack1;
+            return anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack1 ||
+                anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack2 ||
+                anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack3;
         }
     }
 
@@ -58,6 +65,8 @@ public class PlayerController : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
+
+        cameraTransform = Camera.main.transform;
     }
 
     private void Update()
@@ -87,7 +96,7 @@ public class PlayerController : MonoBehaviour
         TimeOutToIdle();
     }
 
-    private float CalculateForwardMovement()
+    private void CalculateForwardMovement()
     {
         if (MoveDirection.sqrMagnitude > 1f)
             MoveDirection.Normalize();
@@ -96,21 +105,27 @@ public class PlayerController : MonoBehaviour
 
         float acceleration = IsMoving ? k_GroundAcceleration : k_GroundDeceleration;
 
-        forwardSpeed = Mathf.MoveTowards(forwardSpeed, desiredForwardSpeed, acceleration * Time.deltaTime);
+        forwardSpeed = Mathf.Lerp(forwardSpeed, desiredForwardSpeed, acceleration * Time.fixedDeltaTime);
 
         anim.SetFloat("ForwardSpeed", forwardSpeed);
-
-        return forwardSpeed;
     }
+
+    private void CalculateVerticalMovement()
+    {
+
+    } 
 
     private void UpdateOrientation()
     {
-        if (IsAttacking)
-            return;
+        Vector3 direction = new Vector3(MoveDirection.x, 0, MoveDirection.y).normalized;
 
-        Vector3 targetRot = new Vector3(MoveDirection.x, 0, MoveDirection.y);
+        if (IsMoving)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetRot), 0.15F);
+            transform.rotation = Quaternion.Euler(0, angle, 0);
+        }            
     }
 
     private void Move()
@@ -118,23 +133,32 @@ public class PlayerController : MonoBehaviour
         if (!CanMove)
             return;
 
-        Vector3 movement = new Vector3(MoveDirection.x, 0, MoveDirection.y);
+        Vector3 inputDirection = new Vector3(MoveDirection.x, 0, MoveDirection.y);
 
-        cc.Move(movement * forwardSpeed * Time.deltaTime);
+        Vector3 forward = cameraTransform.forward.normalized;
+        Vector3 right = cameraTransform.right.normalized;
+
+        forward.y = 0;
+        right.y = 0;
+
+        Vector3 desiredMoveDirection = (right * MoveDirection.x + forward * MoveDirection.y).normalized;
+        desiredMoveDirection.y = 0;
+      
+        cc.Move(desiredMoveDirection * forwardSpeed * Time.fixedDeltaTime);
     }
 
-    private void OnAnimatorMove()
-    {
-        Vector3 movement;
+    //private void OnAnimatorMove()
+    //{
+    //    Vector3 movement;
 
-        movement = anim.deltaPosition;
+    //    movement = anim.deltaPosition;
 
-        movement += forwardSpeed * transform.forward * Time.deltaTime;
+    //    movement += forwardSpeed * transform.forward * Time.deltaTime;
 
-        Debug.Log("move");
+    //    Debug.Log("move");
 
-        cc.Move(movement);
-    }
+    //    cc.Move(movement);
+    //}
 
     private void TimeOutToIdle()
     {
