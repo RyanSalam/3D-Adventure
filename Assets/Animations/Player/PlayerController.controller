@@ -577,7 +577,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 8b5e24808b24b1947a47d13ea1b051d8,
     type: 3}
-  m_Tag: 
+  m_Tag: Blockmovement
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -655,7 +655,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: a8eff89220d400e4da6ec5b1bc9f0845,
     type: 3}
-  m_Tag: 
+  m_Tag: Blockmovement
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -991,7 +991,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -203655887218126122, guid: db1c6bd285d6f0042a1941b67cbb7ffa,
       type: 3}
-    m_Threshold: -3
+    m_Threshold: -1.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1009,7 +1009,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -203655887218126122, guid: 16dc5be24dc49ea4bac4e226f8d0c194,
       type: 3}
-    m_Threshold: 3
+    m_Threshold: 1.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1138,7 +1138,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: eae03ec37676d69418d83ccd2fb6406a,
     type: 3}
-  m_Tag: 
+  m_Tag: Blockmovement
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 

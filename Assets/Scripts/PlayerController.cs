@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return !IsAttacking;
+            return !anim.GetCurrentAnimatorStateInfo(0).IsTag("Blockmovement");
         }
     }
     private bool IsMoving
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("attacking");
+            Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsTag("Blockmovement"));
             anim.SetTrigger("Attack");
         }
 
@@ -84,7 +84,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(anim.GetCurrentAnimatorStateInfo(0).shortNameHash);
         anim.SetFloat("StateTime", Mathf.Repeat(anim.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
 
         CalculateForwardMovement();
