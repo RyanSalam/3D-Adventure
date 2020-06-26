@@ -147,24 +147,9 @@ public class PlayerController : MonoBehaviour
         cc.Move(desiredMoveDirection * forwardSpeed * Time.fixedDeltaTime);
     }
 
-    //private void OnAnimatorMove()
-    //{
-    //    Vector3 movement;
-
-    //    movement = anim.deltaPosition;
-
-    //    movement += forwardSpeed * transform.forward * Time.deltaTime;
-
-    //    Debug.Log("move");
-
-    //    cc.Move(movement);
-    //}
-
     private void TimeOutToIdle()
     {
         bool inputDetected = IsMoving || Input.GetMouseButtonDown(0);
-
-        Debug.Log(inputDetected);
 
         if (!inputDetected)
         {
