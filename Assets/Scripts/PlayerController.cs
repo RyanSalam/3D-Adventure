@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IMessageReceiver
 {
     private CharacterController cc;
     private Animator anim;
@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour
 
     private Transform cameraTransform;
 
-    private bool canAttack;
+    private bool isAttacking;
+    public MeleeWeapon weapon;
+    private DamageAble damageAble;
 
     private float desiredForwardSpeed;
     private float forwardSpeed;
@@ -39,7 +41,14 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return !anim.GetCurrentAnimatorStateInfo(0).IsTag("Blockmovement");
+            return !anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockInput");
+        }
+    }
+    private bool canAttack
+    {
+        get
+        {
+            return !anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockInput");
         }
     }
     private bool IsMoving
@@ -49,15 +58,15 @@ public class PlayerController : MonoBehaviour
             return !Mathf.Approximately(MoveDirection.sqrMagnitude, 0);
         }
     }
-    private bool IsAttacking
-    {
-        get
-        {
-            return anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack1 ||
-                anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack2 ||
-                anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack3;
-        }
-    }
+    //private bool IsAttacking
+    //{
+    //    get
+    //    {
+    //        return anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack1 ||
+    //            anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack2 ||
+    //            anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack3;
+    //    }
+    //}
 
     private float idleTimer = 0f;
 
@@ -67,6 +76,12 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         cameraTransform = Camera.main.transform;
+
+        weapon = GetComponentInChildren<MeleeWeapon>();
+        weapon.wielder = gameObject;
+
+        damageAble = GetComponentInChildren<DamageAble>();
+        damageAble.messageReceivers.Add(this);
     }
 
     private void Update()
@@ -144,6 +159,43 @@ public class PlayerController : MonoBehaviour
         desiredMoveDirection.y = 0;
       
         cc.Move(desiredMoveDirection * forwardSpeed * Time.fixedDeltaTime);
+    }
+
+    public void OnReceiveMessage(MessageType type, object sender, object msg)
+    {
+        switch (type)
+        {
+            case MessageType.Damaged:
+
+                DamageAble.DamageData damageData = (DamageAble.DamageData)msg;
+                Damaged(damageData);
+
+                break;
+        }
+    }
+
+    private void Damaged(DamageAble.DamageData data)
+    {
+        anim.SetTrigger("Hit");
+
+        Vector3 forward = data.damageSource - transform.position;
+        forward.y = 0;
+
+        Vector3 localHurt = transform.InverseTransformDirection(forward);
+
+        anim.SetFloat("HurtFromZ", localHurt.z);
+    }
+
+    public void BeginAttack()
+    {
+        isAttacking = true;
+        weapon.BeginAttack();
+    }
+
+    public void EndAttack()
+    {
+        isAttacking = false;
+        weapon.EndAttack();
     }
 
     private void TimeOutToIdle()
