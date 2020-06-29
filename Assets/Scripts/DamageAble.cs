@@ -107,6 +107,12 @@ public class DamageAble : MonoBehaviour
         }
     }
 
+    public void UpdateHitAngle(float angle, float forward)
+    {
+        hitAngle = angle;
+        hitForwardRotation = forward;
+    }
+
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()

@@ -30,14 +30,14 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
     const float k_GroundAcceleration = 20f;
     const float k_GroundDeceleration = 25f;
+    const float k_JumpAbortSpeed = 10f;
+    const float k_StickingGravityProportion = 0.3f;
 
     private Vector2 MoveDirection;
 
     AnimatorStateInfo stateInfo;
+    private int BlockingLayer;
 
-    readonly int Hash_Attack1 = Animator.StringToHash("Attack 1");
-    readonly int Hash_Attack2 = Animator.StringToHash("Attack 2");
-    readonly int Hash_Attack3 = Animator.StringToHash("Attack 3");
 
     private bool CanMove
     {
@@ -46,6 +46,15 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
             return ! (anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockInput") || anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockMovement"));
         }
     }
+
+    private bool CanJump
+    {
+        get
+        {
+            return  cc.isGrounded && CanMove;
+        }
+    }
+
     private bool CanAttack
     {
         get
@@ -60,15 +69,6 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
             return !Mathf.Approximately(MoveDirection.sqrMagnitude, 0);
         }
     }
-    //private bool IsAttacking
-    //{
-    //    get
-    //    {
-    //        return anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack1 ||
-    //            anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack2 ||
-    //            anim.GetCurrentAnimatorStateInfo(0).shortNameHash == Hash_Attack3;
-    //    }
-    //}
 
     private float idleTimer = 0f;
 
@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
         damageAble = GetComponentInChildren<DamageAble>();
         damageAble.messageReceivers.Add(this);
+
+        BlockingLayer = anim.GetLayerIndex("Blocking");
     }
 
     private void Update()
@@ -116,9 +118,14 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
         CalculateForwardMovement();
 
+
         Move();
 
+        CalculateVerticalMovement();
+
         UpdateOrientation();
+
+        UpdateBlock();
 
         TimeOutToIdle();
     }
@@ -139,7 +146,31 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
     private void CalculateVerticalMovement()
     {
+        if (cc.isGrounded)
+        {
+            verticalSpeed = -gravity * k_StickingGravityProportion;
 
+            if (Input.GetButtonDown("Jump") && CanJump)
+            {
+                verticalSpeed = jumpSpeed;
+            }
+        }
+
+        else
+        {
+            if (!Input.GetButton("Jump") && verticalSpeed > 0.0f)
+            {
+                verticalSpeed -= k_JumpAbortSpeed * Time.fixedDeltaTime;
+                anim.SetTrigger("Jump");
+            }
+
+            if (Mathf.Approximately(verticalSpeed, 0f))
+                verticalSpeed = 0f;
+
+            verticalSpeed -= gravity * Time.deltaTime; 
+        }
+
+        anim.SetFloat("VerticalSpeed", verticalSpeed);
     } 
 
     private void UpdateOrientation()
@@ -164,14 +195,19 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
         Vector3 forward = cameraTransform.forward.normalized;
         Vector3 right = cameraTransform.right.normalized;
+        
+        // Note to future self don't remove these Again
 
         forward.y = 0;
         right.y = 0;
 
         Vector3 desiredMoveDirection = (right * MoveDirection.x + forward * MoveDirection.y).normalized;
         desiredMoveDirection.y = 0;
+
+        //desiredMoveDirection += verticalSpeed * Vector3.up * Time.deltaTime; 
       
         cc.Move(desiredMoveDirection * forwardSpeed * Time.fixedDeltaTime);
+        cc.Move(verticalSpeed * Vector3.up * Time.fixedDeltaTime);
     }
 
     public void OnReceiveMessage(MessageType type, object sender, object msg)
@@ -209,6 +245,29 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
     {
         isAttacking = false;
         weapon.EndAttack();
+    }
+
+    private void UpdateBlock()
+    {
+        anim.SetLayerWeight(BlockingLayer, Input.GetAxis("Fire2"));
+        anim.SetBool("Blocking", anim.GetLayerWeight(BlockingLayer) > 0);
+
+        damageAble.hitAngle = anim.GetBool("Blocking") ? 180f : 360f;
+        damageAble.hitForwardRotation = anim.GetBool("Blocking") ? 180f : 360f;
+    }
+
+    public void BlockAttack()
+    {
+        StartCoroutine(Blocked());
+    }
+
+    private IEnumerator Blocked()
+    {
+        BeginAttack();
+
+        yield return new WaitForSeconds(1f);
+
+        EndAttack();
     }
 
     private void TimeOutToIdle()
