@@ -19,7 +19,7 @@ public class DamageAble : MonoBehaviour
     [Range(0.0f, 360.0f)]
     public float hitForwardRotation = 360.0f;
 
-    public UnityEvent onRecieveDamage, onDeath, onHitFailed, onInvulnerableEnd;
+    public UnityEvent onRecieveDamage, onDeath, onHitFailed, onInvulnerableEnd, onHeal;
 
     public List<MonoBehaviour> messageReceivers; 
 
@@ -80,6 +80,16 @@ public class DamageAble : MonoBehaviour
             var receiver = messageReceivers[i] as IMessageReceiver;
             receiver.OnReceiveMessage(messageType, this, data);
         }
+    }
+
+    public void Heal(int amount)
+    {
+        currentHP += amount;
+
+        if (currentHP >= maxHP)
+            currentHP = maxHP;
+
+        onHeal.Invoke();
     }
 
     private void Update()

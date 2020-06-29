@@ -17,6 +17,7 @@ public class UI_Manager : MonoBehaviour
     }
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Image healthFill;
 
     public void TogglePause()
     {
@@ -29,6 +30,34 @@ public class UI_Manager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void UpdateHP()
+    {
+        DamageAble d = PlayerController.instance.GetComponent<DamageAble>();
+
+        Debug.Log("is this runnning");
+
+        int max = d.maxHP;
+        int current = d.currentHP;
+
+        Debug.Log(current);
+
+        float percent = (float)current / (float)max;
+        StartCoroutine(ChangeHPBar(percent));
+    }
+
+    private IEnumerator ChangeHPBar(float percent)
+    {
+        float preChange = healthFill.fillAmount;
+        float elapsed = 0f;
+
+        while (elapsed < 0.2f)
+        {
+            elapsed += Time.deltaTime;
+            healthFill.fillAmount = Mathf.Lerp(preChange, percent, elapsed / 0.2f);
+            yield return null;
+        }
     }
 
     public void QuitButton()

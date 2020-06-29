@@ -67,8 +67,17 @@ public class ChestBehavior : MonoBehaviour, IMessageReceiver
 
             case EnemyState.Moving:
 
+                if (FindTarget() == null)
+                {
+                    target = null;
+                    state = EnemyState.Idle;
+                    break;
+                }
+
                 float distance = Vector3.Distance(transform.position, target.transform.position);
                 distance = Mathf.Abs(distance);
+
+                agent.SetDestination(target.transform.position);
 
                 if (agent.remainingDistance <= attackRange)
                 {
@@ -76,13 +85,7 @@ public class ChestBehavior : MonoBehaviour, IMessageReceiver
                     state = EnemyState.Attack;
                     break;
                 }
-
-                else if (FindTarget() == null)
-                {
-                    target = null;
-                    state = EnemyState.Idle;
-                    break;
-                }
+                
 
                 break;
 
@@ -94,7 +97,7 @@ public class ChestBehavior : MonoBehaviour, IMessageReceiver
 
                     if (lastAttacked >= attackCD)
                     {
-                        state = FindTarget() ? EnemyState.Moving : EnemyState.Patrol;
+                        state = FindTarget() ? EnemyState.Moving : EnemyState.Idle;
                         lastAttacked = 0;
                         hasAttacked = false;
                     }
