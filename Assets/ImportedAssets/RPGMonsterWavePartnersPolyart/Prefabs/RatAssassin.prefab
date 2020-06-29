@@ -1945,6 +1945,7 @@ GameObject:
   - component: {fileID: 601536154}
   - component: {fileID: 601536151}
   - component: {fileID: 601536153}
+  - component: {fileID: 354905117058264476}
   m_Layer: 0
   m_Name: RatAssassin
   m_TagString: Untagged
@@ -2056,11 +2057,25 @@ MonoBehaviour:
       m_Calls: []
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 354905117058264476}
+        m_MethodName: SpawnCollectible
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHitFailed:
     m_PersistentCalls:
       m_Calls: []
   onInvulnerableEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
     m_PersistentCalls:
       m_Calls: []
   messageReceivers: []
@@ -2086,6 +2101,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &354905117058264476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641454694251030879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5321567b5209bf42a367881ffd77e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Collectibles:
+  - {fileID: 1000012970591572, guid: 7cafb89b5a0f61f479d0a748962abbbc, type: 3}
 --- !u!1 &641454694251030881
 GameObject:
   m_ObjectHideFlags: 0

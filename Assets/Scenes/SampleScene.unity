@@ -1352,30 +1352,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1052552074}
     m_Modifications:
-    - target: {fileID: 601536151, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
-      propertyPath: onRecieveDamage.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 601536151, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
-      propertyPath: onRecieveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 601536151, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
-      propertyPath: onRecieveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 601536151, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
-      propertyPath: onRecieveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1687797334}
-    - target: {fileID: 601536151, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
-      propertyPath: onRecieveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateHP
-      objectReference: {fileID: 0}
-    - target: {fileID: 601536151, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
-      propertyPath: onRecieveDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 601536154, guid: 534cf09b6fa8e774cba24ec7dd685967, type: 3}
       propertyPath: patrolPoints.Array.data[0]
       value: 
@@ -8701,7 +8677,7 @@ PrefabInstance:
     - target: {fileID: 1240975546641928577, guid: 4437112da04dee64aa59158596d8e716,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000028610712
+      value: 0.0000000028610718
       objectReference: {fileID: 0}
     - target: {fileID: 1240975546641928577, guid: 4437112da04dee64aa59158596d8e716,
         type: 3}
@@ -8716,12 +8692,12 @@ PrefabInstance:
     - target: {fileID: 1240975546649162633, guid: 4437112da04dee64aa59158596d8e716,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1.9116249e-10
+      value: 1.9116154e-10
       objectReference: {fileID: 0}
     - target: {fileID: 1240975546649162633, guid: 4437112da04dee64aa59158596d8e716,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000073510993
+      value: -0.0000000073511
       objectReference: {fileID: 0}
     - target: {fileID: 1240975546649162633, guid: 4437112da04dee64aa59158596d8e716,
         type: 3}
