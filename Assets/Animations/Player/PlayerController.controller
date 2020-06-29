@@ -708,7 +708,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 5188aed83d198684fb1e29dd7b7f539e, type: 2}
-  m_Tag: Blockmovement
+  m_Tag: BlockMovement
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -850,7 +850,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 8af2615abce901140aaae9396b9a55f2, type: 2}
-  m_Tag: Blockmovement
+  m_Tag: BlockMovement
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -982,61 +982,61 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 5
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: StateTime
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: ForwardSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: VerticalSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Idle
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Blocking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: HurtFromZ
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1172,10 +1172,6 @@ AnimatorStateMachine:
   - {fileID: -9054600389798035567}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 3414563513538223612}
-    second:
-    - {fileID: -4389844736940998819}
-    - {fileID: -5458328358954754020}
   - first: {fileID: -5054065442257539935}
     second:
     - {fileID: -3164375206364186773}
@@ -1187,6 +1183,10 @@ AnimatorStateMachine:
     second:
     - {fileID: 756555935574987092}
     - {fileID: 7151041325490771348}
+  - first: {fileID: 3414563513538223612}
+    second:
+    - {fileID: -4389844736940998819}
+    - {fileID: -5458328358954754020}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 1070, y: 0, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1431,7 +1431,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 26d2b316af787b849b0480ce0dc4a378, type: 2}
-  m_Tag: Blockmovement
+  m_Tag: BlockInput
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 

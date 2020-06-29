@@ -26,6 +26,7 @@ public class DamageAble : MonoBehaviour
     public struct DamageData
     {
         public MonoBehaviour damager;
+        public GameObject damageOwner;
         public int damageAmount;
         public Vector3 direction;
         public Vector3 damageSource;
@@ -34,6 +35,11 @@ public class DamageAble : MonoBehaviour
     private void Start()
     {
         currentHP = maxHP;
+
+        foreach(MonoBehaviour mono in GetComponentsInParent<IMessageReceiver>())
+        {
+            messageReceivers.Add(mono);
+        }
     }
 
     public void ApplyDamage(DamageData data)

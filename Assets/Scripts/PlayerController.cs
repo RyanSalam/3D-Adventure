@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IMessageReceiver
 {
+    public static PlayerController instance;
+
     private CharacterController cc;
     private Animator anim;
 
@@ -41,10 +43,10 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
     {
         get
         {
-            return !anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockInput");
+            return ! (anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockInput") || anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockMovement"));
         }
     }
-    private bool canAttack
+    private bool CanAttack
     {
         get
         {
@@ -69,6 +71,17 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
     //}
 
     private float idleTimer = 0f;
+
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else
+            Destroy(gameObject);
+
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     private void Start()
     {

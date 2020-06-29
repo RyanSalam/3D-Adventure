@@ -125,6 +125,7 @@ public class MeleeWeapon : MonoBehaviour
         {
             damageAmount = damage,
             damager = this,
+            damageOwner = wielder,
             direction = direction,
             damageSource = wielder.transform.position
         };
