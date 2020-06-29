@@ -117,12 +117,8 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
         anim.SetFloat("StateTime", Mathf.Repeat(anim.GetCurrentAnimatorStateInfo(0).normalizedTime, 1f));
 
         CalculateForwardMovement();
-
-
-        Move();
-
         CalculateVerticalMovement();
-
+        Move();       
         UpdateOrientation();
 
         UpdateBlock();
@@ -141,7 +137,7 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
         forwardSpeed = Mathf.Lerp(forwardSpeed, desiredForwardSpeed, acceleration * Time.fixedDeltaTime);
 
-        anim.SetFloat("ForwardSpeed", forwardSpeed);
+        anim.SetFloat("ForwardSpeed", Mathf.Abs(forwardSpeed));
     }
 
     private void CalculateVerticalMovement()
@@ -236,6 +232,8 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
         anim.SetFloat("HurtFromZ", localHurt.z);
     }
 
+    #region Animation
+
     public void BeginAttack()
     {
         isAttacking = true;
@@ -259,6 +257,7 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
     public void BlockAttack()
     {
+        anim.SetTrigger("Blocked");
         StartCoroutine(Blocked());
     }
 
@@ -294,4 +293,6 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
         //m_Animator.SetBool(m_HashInputDetected, inputDetected);
     }
+
+    #endregion
 }

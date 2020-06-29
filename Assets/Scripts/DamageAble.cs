@@ -44,7 +44,7 @@ public class DamageAble : MonoBehaviour
 
     public void ApplyDamage(DamageData data)
     {
-        if (currentHP < 0)
+        if (currentHP <= 0)
             return;
 
         if (isInvulnerable)

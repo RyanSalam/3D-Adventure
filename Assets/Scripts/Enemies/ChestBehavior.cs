@@ -67,7 +67,7 @@ public class ChestBehavior : MonoBehaviour, IMessageReceiver
 
             case EnemyState.Moving:
 
-                if (FindTarget() == null)
+                if (FindTarget() == null || target == null)
                 {
                     target = null;
                     state = EnemyState.Idle;
