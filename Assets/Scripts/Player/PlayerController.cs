@@ -217,6 +217,14 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
                 Damaged(damageData);
 
                 break;
+
+            case MessageType.Dead:
+
+                Death();
+
+                break;
+
+                
         }
     }
 
@@ -230,6 +238,14 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
         Vector3 localHurt = transform.InverseTransformDirection(forward);
 
         anim.SetFloat("HurtFromZ", localHurt.z);
+    }
+
+    private void Death()
+    {
+        if (anim.GetBool("Dead"))
+            return;
+
+        anim.SetBool("Dead", true);
     }
 
     #region Animation

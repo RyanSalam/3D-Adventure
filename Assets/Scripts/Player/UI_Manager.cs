@@ -17,6 +17,7 @@ public class UI_Manager : MonoBehaviour
     }
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private Image healthFill;
 
     public void TogglePause()
