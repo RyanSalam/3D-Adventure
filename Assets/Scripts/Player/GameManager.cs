@@ -14,4 +14,14 @@ public class GameManager : MonoBehaviour
         else
             Destroy(this);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UI_Manager.instance.TogglePause();
+        }
+    }
+
+
 }
