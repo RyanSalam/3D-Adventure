@@ -6,6 +6,9 @@ public class PlayerAudio : MonoBehaviour
 {
     [SerializeField] private List<AudioClip> Footsteps = new List<AudioClip>();
     [SerializeField] private List<AudioClip> SwordSwings = new List<AudioClip>();
+    [SerializeField] private List<AudioClip> HitSounds = new List<AudioClip>();
+
+
 
     private AudioSource source;
 
