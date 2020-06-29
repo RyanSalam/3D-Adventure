@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
             if (Input.GetButtonDown("Jump") && CanJump)
             {
+                anim.SetTrigger("Jump");
                 verticalSpeed = jumpSpeed;
             }
         }
@@ -161,7 +162,7 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
             if (!Input.GetButton("Jump") && verticalSpeed > 0.0f)
             {
                 verticalSpeed -= k_JumpAbortSpeed * Time.fixedDeltaTime;
-                anim.SetTrigger("Jump");
+                
             }
 
             if (Mathf.Approximately(verticalSpeed, 0f))
