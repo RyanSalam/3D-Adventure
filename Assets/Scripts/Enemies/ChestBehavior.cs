@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Rat_Behavior : MonoBehaviour, IMessageReceiver
+public class ChestBehavior : MonoBehaviour, IMessageReceiver
 {
     private NavMeshAgent agent;
     private Animator anim;
@@ -36,8 +36,7 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
     private void Update()
     {
         anim.SetBool("Idle", state == EnemyState.Idle);
-        anim.SetBool("Patrol", state == EnemyState.Patrol);
-        anim.SetBool("Combat", state == EnemyState.Moving);
+        anim.SetBool("Moving", state == EnemyState.Moving || state == EnemyState.Patrol);
         agent.isStopped = anim.GetCurrentAnimatorStateInfo(0).IsTag("BlockInput") ? true : false;
     }
 
@@ -57,32 +56,11 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
 
                 target = FindTarget();
 
-                if (target == null)
+                if (target != null)
                 {
-                    target = NextPatrol();
-                    state = EnemyState.Patrol;
-
-                    break;
-                }
-
-                state = EnemyState.Moving;
-
-                break;
-
-            case EnemyState.Patrol:
-
-                if (FindTarget() != null)
-                {
-                    target = FindTarget();
-                    agent.SetDestination(target.transform.position);
+                    anim.SetTrigger("Scare");
+                    transform.rotation = Quaternion.LookRotation(target.transform.position, Vector3.up);
                     state = EnemyState.Moving;
-                    break;
-                }
-
-                else if (agent.remainingDistance <= 2f)
-                {
-                    target = NextPatrol();
-                    agent.SetDestination(target.transform.position);
                 }                
 
                 break;
@@ -92,7 +70,7 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
                 float distance = Vector3.Distance(transform.position, target.transform.position);
                 distance = Mathf.Abs(distance);
 
-                if ( agent.remainingDistance <= attackRange)
+                if (agent.remainingDistance <= attackRange)
                 {
                     anim.SetTrigger("Attack");
                     state = EnemyState.Attack;
@@ -101,7 +79,8 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
 
                 else if (FindTarget() == null)
                 {
-                    state = EnemyState.Patrol;
+                    target = null;
+                    state = EnemyState.Idle;
                     break;
                 }
 
@@ -115,7 +94,7 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
 
                     if (lastAttacked >= attackCD)
                     {
-                        state = FindTarget()? EnemyState.Moving : EnemyState.Patrol;
+                        state = FindTarget() ? EnemyState.Moving : EnemyState.Patrol;
                         lastAttacked = 0;
                         hasAttacked = false;
                     }
@@ -156,7 +135,7 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
         target = info.damageOwner;
     }
 
- 
+
 
     private void Death(DamageAble.DamageData data)
     {
@@ -202,4 +181,3 @@ public class Rat_Behavior : MonoBehaviour, IMessageReceiver
 #endif
 }
 
-public enum EnemyState { Idle, Patrol, Moving, Hit, Attack, Dead }
