@@ -27,6 +27,29 @@ public class UI_Manager : MonoBehaviour
         Cursor.lockState = pauseMenu.activeSelf ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
+    public void GameOverDisplay()
+    {
+        gameOverScreen.SetActive(true);
+        StartCoroutine(ScreenFadein());
+        gameOverScreen.transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    private IEnumerator ScreenFadein()
+    {
+        var g = gameOverScreen.GetComponent<Image>();
+        float elapsed = 0f;
+
+        Color current = g.color;
+        Color target = Color.black;
+
+        while (elapsed < 4f)
+        {
+            elapsed += Time.deltaTime;
+            g.color = Color.Lerp(current, target, elapsed / 4f);
+            yield return null;
+        }
+    }
+
     public void ResumeButton()
     {
         pauseMenu.SetActive(false);

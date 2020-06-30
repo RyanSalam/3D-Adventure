@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
 
             case MessageType.Dead:
 
-                Death();
+                Death((DamageAble.DamageData)msg);
 
                 break;
 
@@ -240,12 +240,21 @@ public class PlayerController : MonoBehaviour, IMessageReceiver
         anim.SetFloat("HurtFromZ", localHurt.z);
     }
 
-    private void Death()
+    private void Death(DamageAble.DamageData data)
     {
         if (anim.GetBool("Dead"))
             return;
 
+        Vector3 forward = data.damageSource - transform.position;
+        forward.y = 0;
+
+        Vector3 localHurt = transform.InverseTransformDirection(forward);
+
+        anim.SetFloat("HurtFromZ", localHurt.z);
         anim.SetBool("Dead", true);
+
+        anim.SetTrigger("Hit");
+        GameManager.instance.Gameover();
     }
 
     #region Animation
